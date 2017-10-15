@@ -98,7 +98,15 @@ def runQuest():
     if aluIsEmpty():
         return False
     click(questGuy)
-    click(firstQuest)
+
+    chosenQuest = chooseQuest()
+    if chosenQuest == 1:
+        click(firstQuest)
+    elif chosenQuest == 2:
+        click(secondQuest)
+    elif chosenQuest == 3:
+        click(thirdQuest)
+        
     click(questOkButton)
     time.sleep(20)
     click(characterMenuButton)
@@ -175,19 +183,38 @@ def getQuestInfo():
 
     return (xpValue, durationValue)
 
-
+def getXpQuota(questData):
+    try:
+        # TODO sanity checks
+        return int(questData[0]) / int(questData[1])
+    except:
+        return 0.0
+    
 def chooseQuest():    
     click(firstQuest)
     firstQuestData = getQuestInfo()
+    firstQuota = getXpQuota(firstQuestData)
     print (firstQuestData)
+    print (firstQuota)
     
     click(secondQuest)
     secondQuestData = getQuestInfo()
+    secondQuota = getXpQuota(secondQuestData)
     print (secondQuestData)
-    
+    print (secondQuota)
+           
     click(thirdQuest)
     thirdQuestData = getQuestInfo()
+    thirdQuota = getXpQuota(thirdQuestData)
     print (thirdQuestData)
+    print (thirdQuota)
+
+    results = [firstQuota, secondQuota, thirdQuota]
+    chosenQuest = max(enumerate(results), key=lambda x: x[1])[0]
+    print (chosenQuest + 1)
+
+    # TODO sanity checks
+    return chosenQuest + 1
 
 
 
@@ -196,11 +223,11 @@ def chooseQuest():
 
 #saveScreenshot('test2.png', questDurationArea)
 #result = runOCR('test2.png')
-result = chooseQuest()
-print (result)
+#result = chooseQuest()
+#print (result)
 #time.sleep(60 * 2)
 
-sys.exit()
+#sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
 
