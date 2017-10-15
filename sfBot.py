@@ -25,6 +25,7 @@ areaMenuButton = (73, 293)
 questGuy = (633, 687)
 firstQuest = (430, 721)
 questXpArea = (757, 754, 100, 20)
+questDurationArea = (738, 798, 80, 20)
 questOkButton = (1048, 734)
 aluCheckPoint = ((484, 898), (0, 26, 39))
 
@@ -72,14 +73,17 @@ def logIn():
     time.sleep(30)
 
 def runOCR(filename):
-    result = pytesseract.image_to_string(Image.open(filename), config='-psm 8')
-    result = result.replace(',', '')
-    return result
+    return pytesseract.image_to_string(Image.open(filename), config='-psm 8')
+
+def interpretXpValue(valueString):
+    return valueString.replace(',', '')
+
+def interpretDurationValue(valueString):
+    return valueString.replace(':', '')
 
 def saveScreenshot(fileName, area):
     x,y,w,h = [str(x) for x in area]
     subprocess.call(['maim', '-x', x, '-y', y, '-w', w, '-h', h, fileName])
-    return (Image.open(fileName))
 
 
 
@@ -158,17 +162,32 @@ def completeArena():
 
 # Beta Methods
 
+def getQuestInfo():
+    saveScreenshot('xpValue.png', questXpArea)
+    rawXpValue = runOCR('xpValue.png')
+    xpValue = interpretXpValue(rawXpValue)
+
+    saveScreenshot('durationValue.png', questDurationArea)
+    rawDurationValue = runOCR('durationValue.png')
+    durationValue = interpretDurationValue(rawDurationValue)
+
+    return (xpValue, durationValue)
+
+def chooseQuest():
+    # TODO click on first quest
+    firstQuest = getQuestInfo()
+    
     
 
 #getCheckpointAtCurser()
 
-#print (chooseQuest('test.png', (757, 754, 100, 20)))
-#result = runOCR('test.png')
-
-#print (result)
+#saveScreenshot('test2.png', questDurationArea)
+#result = runOCR('test2.png')
+result = getQuestInfo()
+print (result)
 #time.sleep(60 * 2)
 
-#sys.exit()
+sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
 
