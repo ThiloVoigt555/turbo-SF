@@ -24,6 +24,8 @@ areaMenuButton = (73, 293)
 
 questGuy = (633, 687)
 firstQuest = (430, 721)
+secondQuest = (424, 764)
+thirdQuest = (425, 808)
 questXpArea = (757, 754, 100, 20)
 questDurationArea = (738, 798, 80, 20)
 questOkButton = (1048, 734)
@@ -173,17 +175,28 @@ def getQuestInfo():
 
     return (xpValue, durationValue)
 
-def chooseQuest():
-    # TODO click on first quest
-    firstQuest = getQuestInfo()
+
+def chooseQuest():    
+    click(firstQuest)
+    firstQuestData = getQuestInfo()
+    print (firstQuestData)
     
+    click(secondQuest)
+    secondQuestData = getQuestInfo()
+    print (secondQuestData)
     
+    click(thirdQuest)
+    thirdQuestData = getQuestInfo()
+    print (thirdQuestData)
+
+
+
 
 #getCheckpointAtCurser()
 
 #saveScreenshot('test2.png', questDurationArea)
 #result = runOCR('test2.png')
-result = getQuestInfo()
+result = chooseQuest()
 print (result)
 #time.sleep(60 * 2)
 
