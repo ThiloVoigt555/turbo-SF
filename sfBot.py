@@ -78,12 +78,10 @@ def runOCR(filename):
     return pytesseract.image_to_string(Image.open(filename), config='-psm 8 -c tessedit_char_whitelist=0123456789')
 
 def interpretXpValue(valueString):
-    valueString = valueString.replace(',', '')
     valueString = valueString.replace(' ', '')
     return valueString
 
 def interpretDurationValue(valueString):
-    valueString = valueString.replace(':', '')
     valueString = valueString.replace(' ', '')
     return valueString
 
@@ -198,24 +196,21 @@ def chooseQuest():
     click(firstQuest)
     firstQuestData = getQuestInfo()
     firstQuota = getXpQuota(firstQuestData)
-    print (firstQuestData)
-    print (firstQuota)
+    print (firstQuestData[0] + ', ' + firstQuestData[1] + ' quota: ' + str(firstQuota))
     
     click(secondQuest)
     secondQuestData = getQuestInfo()
     secondQuota = getXpQuota(secondQuestData)
-    print (secondQuestData)
-    print (secondQuota)
+    print (secondQuestData[0] + ', ' + secondQuestData[1] + ' quota: ' + str(secondQuota))
            
     click(thirdQuest)
     thirdQuestData = getQuestInfo()
     thirdQuota = getXpQuota(thirdQuestData)
-    print (thirdQuestData)
-    print (thirdQuota)
+    print (thirdQuestData[0] + ', ' + thirdQuestData[1] + ' quota: ' + str(thirdQuota))
 
     results = [firstQuota, secondQuota, thirdQuota]
     chosenQuest = max(enumerate(results), key=lambda x: x[1])[0]
-    print (chosenQuest + 1)
+    print ('chosen: ' + str(chosenQuest + 1))
 
     # TODO sanity checks
     return chosenQuest + 1
@@ -227,11 +222,11 @@ def chooseQuest():
 
 #saveScreenshot('test2.png', questDurationArea)
 #result = runOCR('test2.png')
-result = chooseQuest()
+#result = chooseQuest()
 #print (result)
 #time.sleep(60 * 2)
 
-sys.exit()
+#sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
 
