@@ -3,6 +3,7 @@ import time
 import datetime
 import sys
 import subprocess
+import pytesseract
 from PIL import Image
 
 # Some Settings
@@ -66,11 +67,21 @@ def openBrowser():
     print ('Browser failed to load the game')
     sys.exit()
 
-def resetBrowser():
-    # TODO reload page and wait a long long time.
+def logIn():
     click(logInButton)
     time.sleep(30)
-    
+
+def runOCR(filename):
+    result = pytesseract.image_to_string(Image.open(filename), config='-psm 8')
+    result = result.replace(',', '')
+    return result
+
+def saveScreenshot(fileName, area):
+    x,y,w,h = [str(x) for x in area]
+    subprocess.call(['maim', '-x', x, '-y', y, '-w', w, '-h', h, fileName])
+    return (Image.open(fileName))
+
+
 
 
 # Questing methods    
@@ -146,18 +157,18 @@ def completeArena():
 
 
 # Beta Methods
-def chooseQuest(fileName, area):
-    x,y,w,h = [str(x) for x in area]
-    subprocess.call(['maim', '-x', x, '-y', y, '-w', w, '-h', h, fileName])
-    return (Image.open(fileName))
+
     
 
 #getCheckpointAtCurser()
 
-print (chooseQuest('test.png', (757, 754, 100, 20)))
+#print (chooseQuest('test.png', (757, 754, 100, 20)))
+#result = runOCR('test.png')
+
+#print (result)
 #time.sleep(60 * 2)
 
-sys.exit()
+#sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
 
