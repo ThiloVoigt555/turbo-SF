@@ -26,8 +26,8 @@ questGuy = (633, 687)
 firstQuest = (430, 721)
 secondQuest = (424, 764)
 thirdQuest = (425, 808)
-questXpArea = (757, 754, 100, 20)
-questDurationArea = (738, 798, 80, 20)
+questXpArea = (757, 752, 100, 23)
+questDurationArea = (738, 796, 80, 23)
 questOkButton = (1048, 734)
 aluCheckPoint = ((484, 898), (0, 26, 39))
 
@@ -75,13 +75,17 @@ def logIn():
     time.sleep(30)
 
 def runOCR(filename):
-    return pytesseract.image_to_string(Image.open(filename), config='-psm 8')
+    return pytesseract.image_to_string(Image.open(filename), config='-psm 8 -c tessedit_char_whitelist=0123456789')
 
 def interpretXpValue(valueString):
-    return valueString.replace(',', '')
+    valueString = valueString.replace(',', '')
+    valueString = valueString.replace(' ', '')
+    return valueString
 
 def interpretDurationValue(valueString):
-    return valueString.replace(':', '')
+    valueString = valueString.replace(':', '')
+    valueString = valueString.replace(' ', '')
+    return valueString
 
 def saveScreenshot(fileName, area):
     x,y,w,h = [str(x) for x in area]
@@ -223,11 +227,11 @@ def chooseQuest():
 
 #saveScreenshot('test2.png', questDurationArea)
 #result = runOCR('test2.png')
-#result = chooseQuest()
+result = chooseQuest()
 #print (result)
 #time.sleep(60 * 2)
 
-#sys.exit()
+sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
 
@@ -244,7 +248,7 @@ while(True):
     completeQuests()
 
     print ('Cooling down for a while.')
-    time.sleep(60 * 11)
+    time.sleep(60 * 6)
     
     completeArena()
     
