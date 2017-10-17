@@ -26,8 +26,8 @@ questGuy = (633, 687)
 firstQuest = (430, 721)
 secondQuest = (424, 764)
 thirdQuest = (425, 808)
-questXpArea = (757, 752, 100, 23)
-questDurationArea = (738, 796, 80, 23)
+questXpArea = (756, 751, 100, 24) # already changed that!
+questDurationArea = (737, 795, 80, 24)
 questOkButton = (1048, 734)
 aluCheckPoint = ((484, 898), (0, 26, 39))
 
@@ -74,15 +74,19 @@ def logIn():
     click(logInButton)
     time.sleep(30)
 
-def runOCR(filename):
-    return pytesseract.image_to_string(Image.open(filename), config='-psm 8 -c tessedit_char_whitelist=0123456789')
+def runOCR(filename, possibleChar):
+    return pytesseract.image_to_string(Image.open(filename), config='-psm 8 -c tessedit_char_whitelist=0123456789' + possibleChar)
 
 def interpretXpValue(valueString):
     valueString = valueString.replace(' ', '')
+    valueString = valueString.replace(',', '')
     return valueString
 
 def interpretDurationValue(valueString):
     valueString = valueString.replace(' ', '')
+    valueString = valueString.replace(':', '')
+    if (valueString != '' and int(valueString) > 9999):
+        valueString = '1400'
     return valueString
 
 def saveScreenshot(fileName, area):
@@ -93,7 +97,7 @@ def saveScreenshot(fileName, area):
 
 
 # Questing methods    
-def runQuest():
+def runQuest(index):
     print ('Starting a quest.')
     click(tavernMenuButton)
     click(tavernMenuButton)
@@ -101,7 +105,7 @@ def runQuest():
         return False
     click(questGuy)
 
-    chosenQuest = chooseQuest()
+    chosenQuest = chooseQuest(str(index))
     if chosenQuest == 1:
         click(firstQuest)
     elif chosenQuest == 2:
@@ -121,7 +125,7 @@ def completeQuests():
     browserProcess = openBrowser()
     for i in range(20):
 
-        questResult = runQuest() 
+        questResult = runQuest(i) 
         if questResult == False:
             print ('All Quests finished')
             browserProcess.kill()
@@ -151,11 +155,11 @@ def runArenaFight():
     time.sleep(50)
     click(characterMenuButton)
         
-def completeArena():
+def completeArena(trys):
     print ('Arena fighting:')
     browserProcess = openBrowser()
-    for i in range(15):
 
+    for i in range(trys):
         runArenaFight()
 
         if (i % 2 == 0 and i != 0):
@@ -174,13 +178,15 @@ def completeArena():
 
 # Beta Methods
 
-def getQuestInfo():
-    saveScreenshot('xpValue.png', questXpArea)
-    rawXpValue = runOCR('xpValue.png')
+def getQuestInfo(index):
+    filename = index + 'xpValue' + '.png'
+    saveScreenshot(filename, questXpArea)
+    rawXpValue = runOCR(filename, ',')
     xpValue = interpretXpValue(rawXpValue)
 
-    saveScreenshot('durationValue.png', questDurationArea)
-    rawDurationValue = runOCR('durationValue.png')
+    filename = index + 'durationValue' + '.png'
+    saveScreenshot(filename, questDurationArea)
+    rawDurationValue = runOCR(filename, ':')
     durationValue = interpretDurationValue(rawDurationValue)
 
     return (xpValue, durationValue)
@@ -192,25 +198,30 @@ def getXpQuota(questData):
     except:
         return 0.0
     
-def chooseQuest():    
+def chooseQuest(index):
+    if (int(index) < 10):
+        index = '0' + index
+        
+    print ('Choosing quest for quest #' + index)
+    
     click(firstQuest)
-    firstQuestData = getQuestInfo()
+    firstQuestData = getQuestInfo(index + '1')
     firstQuota = getXpQuota(firstQuestData)
     print (firstQuestData[0] + ', ' + firstQuestData[1] + ' quota: ' + str(firstQuota))
     
     click(secondQuest)
-    secondQuestData = getQuestInfo()
+    secondQuestData = getQuestInfo(index + '2')
     secondQuota = getXpQuota(secondQuestData)
     print (secondQuestData[0] + ', ' + secondQuestData[1] + ' quota: ' + str(secondQuota))
            
     click(thirdQuest)
-    thirdQuestData = getQuestInfo()
+    thirdQuestData = getQuestInfo(index + '3')
     thirdQuota = getXpQuota(thirdQuestData)
     print (thirdQuestData[0] + ', ' + thirdQuestData[1] + ' quota: ' + str(thirdQuota))
 
     results = [firstQuota, secondQuota, thirdQuota]
     chosenQuest = max(enumerate(results), key=lambda x: x[1])[0]
-    print ('chosen: ' + str(chosenQuest + 1))
+    print ('Chosen quest: ' + str(chosenQuest + 1))
 
     # TODO sanity checks
     return chosenQuest + 1
@@ -221,12 +232,15 @@ def chooseQuest():
 #getCheckpointAtCurser()
 
 #saveScreenshot('test2.png', questDurationArea)
-#result = runOCR('test2.png')
+filename = '011durationValue.png'
+result = runOCR(filename, '')
+print (result)
+result = runOCR(filename, ':')
+print (result)
 #result = chooseQuest()
-#print (result)
 #time.sleep(60 * 2)
 
-#sys.exit()
+sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
 
@@ -245,7 +259,7 @@ while(True):
     print ('Cooling down for a while.')
     time.sleep(60 * 6)
     
-    completeArena()
+    completeArena(15)
     
     waitUntilTomorrow(5)
     
