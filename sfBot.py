@@ -21,18 +21,23 @@ tavernMenuButton = (65, 241)
 tavernCheckPoint = ((346, 857), (72, 58, 47))
 characterMenuButton = (78, 694)
 areaMenuButton = (73, 293)
+fortressMenuButton = (50, 939)
 
 questGuy = (633, 687)
 firstQuest = (430, 721)
 secondQuest = (424, 764)
 thirdQuest = (425, 808)
-questXpArea = (756, 751, 100, 24) # already changed that!
-questDurationArea = (737, 795, 80, 24)
+questXpArea = (756, 751, 100, 24) 
+questDurationArea = (738, 795, 80, 24)
 questOkButton = (1048, 734)
 aluCheckPoint = ((484, 898), (0, 26, 39))
 
 firstArenaEnemy = (603, 397)
 arenaOkButton = (904, 710)
+
+fortressXpBuilding = (403, 442)
+fortressStoneBuilding = (398, 757)
+fortressWoodBuilding = (542, 827)
 
 
 # Util methods
@@ -93,6 +98,18 @@ def saveScreenshot(fileName, area):
     x,y,w,h = [str(x) for x in area]
     subprocess.call(['maim', '-x', x, '-y', y, '-w', w, '-h', h, fileName])
 
+def getQuestInfo(index):
+    filename = index + 'xpValue' + '.png'
+    saveScreenshot(filename, questXpArea)
+    rawXpValue = runOCR(filename, ',')
+    xpValue = interpretXpValue(rawXpValue)
+
+    filename = index + 'durationValue' + '.png'
+    saveScreenshot(filename, questDurationArea)
+    rawDurationValue = runOCR(filename, ':')
+    durationValue = interpretDurationValue(rawDurationValue)
+
+    return (xpValue, durationValue)
 
 
 
@@ -100,6 +117,7 @@ def saveScreenshot(fileName, area):
 def runQuest(index):
     print ('Starting a quest.')
     click(tavernMenuButton)
+    time.sleep(10)
     click(tavernMenuButton)
     if aluIsEmpty():
         return False
@@ -114,7 +132,7 @@ def runQuest(index):
         click(thirdQuest)
         
     click(questOkButton)
-    time.sleep(20)
+    time.sleep(25)
     click(characterMenuButton)
 
 def aluIsEmpty():
@@ -123,8 +141,9 @@ def aluIsEmpty():
 def completeQuests():
     print ('Started questing.')
     browserProcess = openBrowser()
+    collectFortressRessources()
+    
     for i in range(20):
-
         questResult = runQuest(i) 
         if questResult == False:
             print ('All Quests finished')
@@ -135,6 +154,7 @@ def completeQuests():
             browserProcess.kill()
             time.sleep(60 * (14 - _firefoxStartupTime))
             browserProcess = openBrowser()
+            collectFortressRessources()
 
         else:
             time.sleep(60 * 14)
@@ -158,7 +178,8 @@ def runArenaFight():
 def completeArena(trys):
     print ('Arena fighting:')
     browserProcess = openBrowser()
-
+    collectFortressRessources()
+    
     for i in range(trys):
         runArenaFight()
 
@@ -166,6 +187,7 @@ def completeArena(trys):
             browserProcess.kill()
             time.sleep(60 * (10 - _firefoxStartupTime))
             browserProcess = openBrowser()
+            collectFortressRessources()
             
         else:
             time.sleep(60 * 10)
@@ -175,22 +197,17 @@ def completeArena(trys):
     print ('Done with all fights.')
 
 
+# Fortress methods
+def collectFortressRessources():
+    click(fortressMenuButton)
+    time.sleep(10)
+    click(fortressXpBuilding)
+    click(fortressStoneBuilding)
+    click(fortressWoodBuilding)
+    click(characterMenuButton)
+
 
 # Beta Methods
-
-def getQuestInfo(index):
-    filename = index + 'xpValue' + '.png'
-    saveScreenshot(filename, questXpArea)
-    rawXpValue = runOCR(filename, ',')
-    xpValue = interpretXpValue(rawXpValue)
-
-    filename = index + 'durationValue' + '.png'
-    saveScreenshot(filename, questDurationArea)
-    rawDurationValue = runOCR(filename, ':')
-    durationValue = interpretDurationValue(rawDurationValue)
-
-    return (xpValue, durationValue)
-
 def getXpQuota(questData):
     try:
         # TODO sanity checks
@@ -223,22 +240,23 @@ def chooseQuest(index):
     chosenQuest = max(enumerate(results), key=lambda x: x[1])[0]
     print ('Chosen quest: ' + str(chosenQuest + 1))
 
-    # TODO sanity checks
     return chosenQuest + 1
 
 
+def enlistToGuildFights():
+    return
+
+def doDailys():
+    # TODO spin round
+    return
 
 
-#getCheckpointAtCurser()
 
-#saveScreenshot('test2.png', questDurationArea)
-filename = '011durationValue.png'
-result = runOCR(filename, '')
-print (result)
-result = runOCR(filename, ':')
-print (result)
-#result = chooseQuest()
-#time.sleep(60 * 2)
+
+getCheckpointAtCurser()
+
+collectFortressRessources()
+#print (result)
 
 sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
