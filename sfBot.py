@@ -14,7 +14,8 @@ pyautogui.PAUSE = 22
 _firefoxStartupTime = 4
 
 # Points on screen
-gameScreenCheckPoint = ((1493, 854), (16, 38, 52))
+gameScreenCheckPoint = ((1323, 874), (247, 133, 129)) #((1493, 854), (16, 38, 52))
+gameScreenPopupReset = (1324, 742)
 logInButton = (855, 842)
 
 tavernMenuButton = (65, 241)
@@ -35,6 +36,7 @@ aluCheckPoint = ((484, 898), (0, 26, 39))
 firstArenaEnemy = (603, 397)
 arenaOkButton = (904, 710)
 
+fortressPopupReset = (265, 554)
 fortressXpBuilding = (403, 442)
 fortressStoneBuilding = (398, 757)
 fortressWoodBuilding = (542, 827)
@@ -66,9 +68,11 @@ def openBrowser():
         time.sleep(5)
         browserProcess = subprocess.Popen(['firefox', 'http://w19.sfgame.net/?playerclass=1&platform=html5'])    
         time.sleep(60 * _firefoxStartupTime)
-        if checkPixel(gameScreenCheckPoint):
+        click(gameScreenPopupReset)
+        if (checkPixel(gameScreenCheckPoint)):
             print ('Game is running.')
             return browserProcess
+            
         pyautogui.screenshot('browserFail.png')
         browserProcess.kill()
         
@@ -154,7 +158,7 @@ def completeQuests():
             browserProcess.kill()
             time.sleep(60 * (14 - _firefoxStartupTime))
             browserProcess = openBrowser()
-            collectFortressRessources()
+            collectFortressXp()
 
         else:
             time.sleep(60 * 14)
@@ -187,7 +191,7 @@ def completeArena(trys):
             browserProcess.kill()
             time.sleep(60 * (10 - _firefoxStartupTime))
             browserProcess = openBrowser()
-            collectFortressRessources()
+            collectFortressXp()
             
         else:
             time.sleep(60 * 10)
@@ -197,14 +201,28 @@ def completeArena(trys):
     print ('Done with all fights.')
 
 
+
 # Fortress methods
 def collectFortressRessources():
+    print ('Collecting all fortress ressources.')
     click(fortressMenuButton)
     time.sleep(10)
     click(fortressXpBuilding)
+    click(fortressPopupReset)
     click(fortressStoneBuilding)
+    click(fortressPopupReset)
     click(fortressWoodBuilding)
+    click(fortressPopupReset)
     click(characterMenuButton)
+
+def collectFortressXp():
+    print ('Collecting fortress xp.')
+    click(fortressMenuButton)
+    time.sleep(10)
+    click(fortressXpBuilding)
+    click(characterMenuButton)
+
+
 
 
 # Beta Methods
@@ -250,14 +268,30 @@ def doDailys():
     # TODO spin round
     return
 
+def farmFortressXp(hoursToFarm):
+    timeNow = datetime.datetime.now()
+    print ('Time: ' + str(timeNow.hour) + ':' + str(timeNow.minute))
+    print ('Going to farm fortress xp for ' + str(hoursToFarm) + ' hours.')
+    
+    for i in range(hoursToFarm):
+        timeNow = datetime.datetime.now()
+        if (timeNow.hour > 21 or timeNow.hour < 4):
+            print ('Time to sleep now. No more Fortress farming!')
+            return 
 
+        
+        browserProcess = openBrowser()
+        collectFortressXp()
+        browserProcess.kill()
+        time.sleep(60 * 53)
 
 
 getCheckpointAtCurser()
 
-collectFortressRessources()
-#print (result)
+#openBrowser()
 
+#collectFortressRessources()
+#print (result)
 sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
@@ -265,19 +299,18 @@ sys.exit()
 
 # Main
 print('Starting up the bot:')
-time.sleep(2)
-time.sleep(2)
-time.sleep(2)
-time.sleep(2)
+for i in range(6):
+    time.sleep(1)
 
-while(True):
-    
+while(True):    
     completeQuests()
 
     print ('Cooling down for a while.')
     time.sleep(60 * 6)
     
     completeArena(15)
+
+    farmFortressXp(6)
     
     waitUntilTomorrow(5)
     
