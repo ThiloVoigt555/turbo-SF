@@ -15,7 +15,7 @@ _firefoxStartupTime = 3
 
 
 # Points on screen
-gameScreenCheckPoint = ((1323, 874), (247, 133, 129)) #((1493, 854), (16, 38, 52))
+gameScreenCheckPoint = ((1323, 874), (247, 133, 129))
 gameScreenPopupReset = (1324, 742)
 logInButton = (855, 842)
 
@@ -103,79 +103,9 @@ def saveScreenshot(fileName, area):
     x,y,w,h = [str(x) for x in area]
     subprocess.call(['maim', '-x', x, '-y', y, '-w', w, '-h', h, fileName])
 
-def getQuestInfo(index):
-    filename = index + 'xpValue' + '.png'
-    saveScreenshot(filename, questXpArea)
-    rawXpValue = runOCR(filename, ',')
-    xpValue = interpretXpValue(rawXpValue)
-
-    filename = index + 'durationValue' + '.png'
-    saveScreenshot(filename, questDurationArea)
-    rawDurationValue = runOCR(filename, ':')
-    durationValue = interpretDurationValue(rawDurationValue)
-
-    return (xpValue, durationValue)
-
-def getXpQuota(questData):
-    try:
-        return int(questData[0]) / int(questData[1])
-    except:
-        return 0.0
     
-def chooseQuest(index):
-    if (int(index) < 10):
-        index = '0' + index
-        
-    #print ('Choosing quest for quest #' + index)
-    click(firstQuest)
-    firstQuestData = getQuestInfo(index + '1')
-    firstQuota = getXpQuota(firstQuestData)
-    #print (firstQuestData[0] + ', ' + firstQuestData[1] + ' quota: ' + str(firstQuota))
-    
-    click(secondQuest)
-    secondQuestData = getQuestInfo(index + '2')
-    secondQuota = getXpQuota(secondQuestData)
-    #print (secondQuestData[0] + ', ' + secondQuestData[1] + ' quota: ' + str(secondQuota))
-           
-    click(thirdQuest)
-    thirdQuestData = getQuestInfo(index + '3')
-    thirdQuota = getXpQuota(thirdQuestData)
-    #print (thirdQuestData[0] + ', ' + thirdQuestData[1] + ' quota: ' + str(thirdQuota))
-
-    results = [firstQuota, secondQuota, thirdQuota]
-    chosenQuest = max(enumerate(results), key=lambda x: x[1])[0]
-    #print ('Chosen quest: ' + str(chosenQuest + 1))
-
-    return chosenQuest + 1
-
-
-
 
 # Questing methods    
-def runQuest(index):
-    print ('Quest #' + str(index))
-    click(tavernMenuButton)
-    time.sleep(10)
-    click(tavernMenuButton)
-    if aluIsEmpty():
-        return False
-    click(questGuy)
-
-    chosenQuest = chooseQuest(str(index))
-    if chosenQuest == 1:
-        click(firstQuest)
-    elif chosenQuest == 2:
-        click(secondQuest)
-    elif chosenQuest == 3:
-        click(thirdQuest)
-        
-    click(questOkButton)
-    time.sleep(25)
-    click(characterMenuButton)
-
-def aluIsEmpty():
-    return checkPixel(aluCheckPoint)
-
 def completeQuests():
     print ('Started questing.')
     browserProcess = openBrowser()
@@ -200,6 +130,71 @@ def completeQuests():
         
     print ('More than 20 quests needed!')
     browserProcess.kill()
+
+def runQuest(index):
+    print ('Quest #' + str(index))
+    click(tavernMenuButton)
+    time.sleep(10)
+    click(tavernMenuButton)
+    if allQuestsDone():
+        return False
+    
+    click(questGuy)
+    chosenQuest = chooseQuest(str(index))
+    if chosenQuest == 1:
+        click(firstQuest)
+    elif chosenQuest == 2:
+        click(secondQuest)
+    elif chosenQuest == 3:
+        click(thirdQuest)
+        
+    click(questOkButton)
+    time.sleep(25)
+    click(characterMenuButton)
+
+def allQuestsDone():
+    return checkPixel(aluCheckPoint)
+
+def chooseQuest(questNumber):
+    if (int(questNumber) < 10):
+        questNumber = '0' + questNumber
+        
+    #print ('Choosing quest for quest #' + index)
+    firstQuota = extractXpQuota(firstQuest, questNumber, '1')
+    secondQuota = extractXpQuota(secondQuest, questNumber, '2')
+    thirdQuota = extractXpQuota(thirdQuest, questNumber, '3')
+    
+    results = [firstQuota, secondQuota, thirdQuota]
+    chosenQuestIndex = max(enumerate(results), key=lambda x: x[1])[0]
+    #print ('Chosen quest: ' + str(chosenQuest + 1))
+    return chosenQuestIndex + 1
+
+def extractXpQuota(questProposalPoint, questNumber, questProposalIndex)
+    click(questProposalPoint)
+    questData = getQuestInfo(questNumber + questProposalIndex)
+    quota = getXpQuota(firstQuestData)
+    #print (questData[0] + ', ' + questData[1] + ' quota: ' + str(quota))
+    return quota
+
+def getQuestInfo(index):
+    filename = index + 'xpValue' + '.png'
+    saveScreenshot(filename, questXpArea)
+    rawXpValue = runOCR(filename, ',')
+    xpValue = interpretXpValue(rawXpValue)
+
+    filename = index + 'durationValue' + '.png'
+    saveScreenshot(filename, questDurationArea)
+    rawDurationValue = runOCR(filename, ':')
+    durationValue = interpretDurationValue(rawDurationValue)
+
+    return (xpValue, durationValue)
+
+def getXpQuota(questData):
+    try:
+        return int(questData[0]) / int(questData[1])
+    except:
+        return 0.0
+
         
 
 # Arena methods
@@ -284,6 +279,8 @@ def farmFortressXp(hoursToFarm):
         browserProcess.kill()
         time.sleep(60 * 53)
 
+
+# Debugging:
 
 #getCheckpointAtCurser()
 
