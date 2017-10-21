@@ -11,7 +11,8 @@ pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 22
 
 # Constants
-_firefoxStartupTime = 4
+_firefoxStartupTime = 3
+
 
 # Points on screen
 gameScreenCheckPoint = ((1323, 874), (247, 133, 129)) #((1493, 854), (16, 38, 52))
@@ -115,11 +116,44 @@ def getQuestInfo(index):
 
     return (xpValue, durationValue)
 
+def getXpQuota(questData):
+    try:
+        return int(questData[0]) / int(questData[1])
+    except:
+        return 0.0
+    
+def chooseQuest(index):
+    if (int(index) < 10):
+        index = '0' + index
+        
+    #print ('Choosing quest for quest #' + index)
+    click(firstQuest)
+    firstQuestData = getQuestInfo(index + '1')
+    firstQuota = getXpQuota(firstQuestData)
+    #print (firstQuestData[0] + ', ' + firstQuestData[1] + ' quota: ' + str(firstQuota))
+    
+    click(secondQuest)
+    secondQuestData = getQuestInfo(index + '2')
+    secondQuota = getXpQuota(secondQuestData)
+    #print (secondQuestData[0] + ', ' + secondQuestData[1] + ' quota: ' + str(secondQuota))
+           
+    click(thirdQuest)
+    thirdQuestData = getQuestInfo(index + '3')
+    thirdQuota = getXpQuota(thirdQuestData)
+    #print (thirdQuestData[0] + ', ' + thirdQuestData[1] + ' quota: ' + str(thirdQuota))
+
+    results = [firstQuota, secondQuota, thirdQuota]
+    chosenQuest = max(enumerate(results), key=lambda x: x[1])[0]
+    #print ('Chosen quest: ' + str(chosenQuest + 1))
+
+    return chosenQuest + 1
+
+
 
 
 # Questing methods    
 def runQuest(index):
-    print ('Starting a quest.')
+    print ('Quest #' + str(index))
     click(tavernMenuButton)
     time.sleep(10)
     click(tavernMenuButton)
@@ -169,8 +203,8 @@ def completeQuests():
         
 
 # Arena methods
-def runArenaFight():
-    print ('Doning an arena fight')
+def runArenaFight(index):
+    print ('Area Fight #' + str(index))
     click(characterMenuButton)
     click(areaMenuButton)
     time.sleep(30)
@@ -185,7 +219,7 @@ def completeArena(trys):
     collectFortressRessources()
     
     for i in range(trys):
-        runArenaFight()
+        runArenaFight(i)
 
         if (i % 2 == 0 and i != 0):
             browserProcess.kill()
@@ -226,41 +260,6 @@ def collectFortressXp():
 
 
 # Beta Methods
-def getXpQuota(questData):
-    try:
-        # TODO sanity checks
-        return int(questData[0]) / int(questData[1])
-    except:
-        return 0.0
-    
-def chooseQuest(index):
-    if (int(index) < 10):
-        index = '0' + index
-        
-    print ('Choosing quest for quest #' + index)
-    
-    click(firstQuest)
-    firstQuestData = getQuestInfo(index + '1')
-    firstQuota = getXpQuota(firstQuestData)
-    print (firstQuestData[0] + ', ' + firstQuestData[1] + ' quota: ' + str(firstQuota))
-    
-    click(secondQuest)
-    secondQuestData = getQuestInfo(index + '2')
-    secondQuota = getXpQuota(secondQuestData)
-    print (secondQuestData[0] + ', ' + secondQuestData[1] + ' quota: ' + str(secondQuota))
-           
-    click(thirdQuest)
-    thirdQuestData = getQuestInfo(index + '3')
-    thirdQuota = getXpQuota(thirdQuestData)
-    print (thirdQuestData[0] + ', ' + thirdQuestData[1] + ' quota: ' + str(thirdQuota))
-
-    results = [firstQuota, secondQuota, thirdQuota]
-    chosenQuest = max(enumerate(results), key=lambda x: x[1])[0]
-    print ('Chosen quest: ' + str(chosenQuest + 1))
-
-    return chosenQuest + 1
-
-
 def enlistToGuildFights():
     return
 
@@ -275,7 +274,7 @@ def farmFortressXp(hoursToFarm):
     
     for i in range(hoursToFarm):
         timeNow = datetime.datetime.now()
-        if (timeNow.hour > 21 or timeNow.hour < 4):
+        if (timeNow.hour > 23 or timeNow.hour < 4):
             print ('Time to sleep now. No more Fortress farming!')
             return 
 
@@ -286,13 +285,13 @@ def farmFortressXp(hoursToFarm):
         time.sleep(60 * 53)
 
 
-getCheckpointAtCurser()
+#getCheckpointAtCurser()
 
 #openBrowser()
 
 #collectFortressRessources()
 #print (result)
-sys.exit()
+#sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
 
