@@ -8,7 +8,7 @@ import fortressModule as Fortress
 def completeArena(trys):
     print ('Arena fighting:')
     browserProcess = Bot.openBrowser()
-    collectFortressRessources()
+    Fortress.collectFortressRessources()
     
     for i in range(trys):
         runArenaFight(i)
@@ -17,7 +17,7 @@ def completeArena(trys):
             browserProcess.kill()
             Bot.sleep(60 * (10 - Constants.firefoxStartupTime))
             browserProcess = Bot.openBrowser()
-            collectFortressRessources()
+            Fortress.collectFortressRessources()
             
         else:
             Bot.sleep(60 * 10)

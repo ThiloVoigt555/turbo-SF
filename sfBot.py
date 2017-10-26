@@ -8,14 +8,22 @@ import pointLibrary as PointLib
 import globalConstants as Constants
 import fortressModule as Fortress
 
+# Beta Methods
+def enlistToGuildFights():
+    Bot.click(PointLib.guildMenuButton)
+    Bot.click(PointLib.guildAttackEnlist)
+    Bot.click(PointLib.guildDefenseEnlist)
+    Bot.click(PointLib.guildRaidEnlist)
 
+def spinWheelOfFortune():
+    Bot.click(PointLib.abawuwuMenuButton)
+    Bot.click(PointLib.abawuwuSpinWheel)
+
+    
 # Debugging:
 
-
-#getCheckpointAtCurser()
-
-#openBrowser()
-
+#Bot.getCheckpointAtCurser()
+#enlistToGuildFights()
 #collectFortressRessources()
 #quest.test()
 #sys.exit()
@@ -32,7 +40,7 @@ while(True):
     Quest.completeQuests()
 
     print ('Cooling down for a while.')
-    Bot.sleep(60 * 6)
+    Bot.sleep(60 * 5)
     
     Arena.completeArena(15)
 
@@ -40,17 +48,4 @@ while(True):
     
     Bot.waitUntilTomorrow(5)
     
-
-
-# Beta Methods
-def enlistToGuildFights():
-    return
-
-def doDailys():
-    # TODO spin round
-    return
-
-
-
-
 

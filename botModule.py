@@ -23,6 +23,7 @@ def getTime():
     return datetime.datetime.now()
 
 def printTime():
+    timeNow = getTime()
     print ('Time: ' + str(timeNow.hour) + ':' + str(timeNow.minute))
     
 def click(point):

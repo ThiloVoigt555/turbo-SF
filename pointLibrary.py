@@ -9,6 +9,8 @@ tavernCheckPoint = ((346, 857), (72, 58, 47))
 characterMenuButton = (78, 694)
 areaMenuButton = (73, 293)
 fortressMenuButton = (50, 939)
+guildMenuButton = (60, 784)
+abawuwuMenuButton = (79, 586)
 
 questGuy = (633, 687)
 firstQuest = (430, 721)
@@ -26,3 +28,9 @@ fortressPopupReset = (265, 554)
 fortressXpBuilding = (403, 442)
 fortressStoneBuilding = (398, 757)
 fortressWoodBuilding = (542, 827)
+
+guildAttackEnlist = (832, 278)
+guildDefenseEnlist = (831, 410)
+guildRaidEnlist = (828, 542)
+
+abawuwuSpinWheel = (356, 910)
