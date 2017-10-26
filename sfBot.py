@@ -6,6 +6,8 @@ import subprocess
 import pytesseract
 from PIL import Image
 
+import questingModule as Quest
+
 # Some Settings
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 22
@@ -105,7 +107,7 @@ def saveScreenshot(fileName, area):
 
     
 
-# Questing methods    
+# Questing methods 
 def completeQuests():
     print ('Started questing.')
     browserProcess = openBrowser()
@@ -169,10 +171,10 @@ def chooseQuest(questNumber):
     #print ('Chosen quest: ' + str(chosenQuest + 1))
     return chosenQuestIndex + 1
 
-def extractXpQuota(questProposalPoint, questNumber, questProposalIndex)
+def extractXpQuota(questProposalPoint, questNumber, questProposalIndex):
     click(questProposalPoint)
     questData = getQuestInfo(questNumber + questProposalIndex)
-    quota = getXpQuota(firstQuestData)
+    quota = getXpQuota(questData)
     #print (questData[0] + ', ' + questData[1] + ' quota: ' + str(quota))
     return quota
 
@@ -189,11 +191,16 @@ def getQuestInfo(index):
 
     return (xpValue, durationValue)
 
+def readScreenArea(fileName, screenArea, separationCaracter):
+    saveScreenshot(fileName, screenArea)
+    rawXpValue = runOCR(fileName, separationCaracter)
+
 def getXpQuota(questData):
     try:
         return int(questData[0]) / int(questData[1])
     except:
         return 0.0
+
 
         
 
@@ -220,7 +227,7 @@ def completeArena(trys):
             browserProcess.kill()
             time.sleep(60 * (10 - _firefoxStartupTime))
             browserProcess = openBrowser()
-            collectFortressXp()
+            collectFortressRessources()
             
         else:
             time.sleep(60 * 10)
@@ -273,21 +280,21 @@ def farmFortressXp(hoursToFarm):
             print ('Time to sleep now. No more Fortress farming!')
             return 
 
-        
         browserProcess = openBrowser()
-        collectFortressXp()
+        collectFortressRessources()
         browserProcess.kill()
         time.sleep(60 * 53)
 
 
 # Debugging:
 
+
 #getCheckpointAtCurser()
 
 #openBrowser()
 
 #collectFortressRessources()
-#print (result)
+#quest.test()
 #sys.exit()
 # http://w19.sfgame.net/?playerclass=1&platform=html5
 
@@ -306,7 +313,7 @@ while(True):
     
     completeArena(15)
 
-    farmFortressXp(6)
+    farmFortressXp(9)
     
     waitUntilTomorrow(5)
     
