@@ -7,9 +7,9 @@ def farmFortressXp(hoursToFarm):
     Bot.printTime()
     print ('Going to farm fortress xp for ' + str(hoursToFarm) + ' hours.')
 
-    timeNow = Bot.getTimeNow()
+    timeNow = Bot.getTime()
     for i in range(hoursToFarm):
-        timeNow = Bot.getTimeNow()
+        timeNow = Bot.getTime()
         if (timeNow.hour > 23 or timeNow.hour < 4):
             print ('Time to sleep now. No more Fortress farming!')
             return 
