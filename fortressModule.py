@@ -15,7 +15,7 @@ def farmFortressXp(hoursToFarm):
             return 
 
         browserProcess = Bot.openBrowser()
-        Fortress.collectFortressRessources()
+        collectFortressRessources()
         browserProcess.kill()
         Bot.sleep(60 * 53)
 
