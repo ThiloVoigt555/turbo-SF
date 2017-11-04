@@ -1,7 +1,9 @@
 import botModule as Bot
 import pointLibrary as PointLib
 import globalConstants as Constants
+
 import fortressModule as Fortress
+import guildModule as Guild
 
 
 # Questing methods 
@@ -9,6 +11,7 @@ def completeQuests():
     print ('Started questing.')
     browserProcess = Bot.openBrowser()
     Fortress.collectFortressRessources()
+    Guild.enlistToGuildFights()
     
     for i in range(20):
         questResult = runQuest(i) 
@@ -26,7 +29,6 @@ def completeQuests():
 
         else:
             Bot.sleep(60 * 14)
-        print ('Done with quest-sleep')
         
     print ('More than 20 quests needed!')
     browserProcess.kill()

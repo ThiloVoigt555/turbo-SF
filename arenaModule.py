@@ -1,7 +1,9 @@
 import pointLibrary as PointLib
 import botModule as Bot
 import globalConstants as Constants
+
 import fortressModule as Fortress
+import guildModule as Guild
 
 
 # Arena methods
@@ -9,8 +11,13 @@ def completeArena(trys):
     print ('Arena fighting:')
     browserProcess = Bot.openBrowser()
     Fortress.collectFortressRessources()
+    Guild.enlistToGuildFights()
     
     for i in range(trys):
+        if (timeNow.hour > 23 or timeNow.hour < 4):
+            print ('It is time to sleep now.')
+            return
+        
         runArenaFight(i)
 
         if (i % 2 == 0 and i != 0):
@@ -21,7 +28,6 @@ def completeArena(trys):
             
         else:
             Bot.sleep(60 * 10)
-        print ('Done with arena-sleep.')
 
     browserProcess.kill()
     Bot.printTime()
@@ -30,10 +36,9 @@ def completeArena(trys):
     
 def runArenaFight(index):
     print ('Area Fight #' + str(index))
-    Bot.click(PointLib.characterMenuButton)
     Bot.click(PointLib.areaMenuButton)
     Bot.sleep(30)
     Bot.click(PointLib.firstArenaEnemy)
     Bot.click(PointLib.arenaOkButton)
-    Bot.time.sleep(50)
+    Bot.time.sleep(60)
     Bot.click(PointLib.characterMenuButton)

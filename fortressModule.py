@@ -11,7 +11,7 @@ def farmFortressXp(hoursToFarm):
     for i in range(hoursToFarm):
         timeNow = Bot.getTime()
         if (timeNow.hour > 23 or timeNow.hour < 4):
-            print ('Time to sleep now. No more Fortress farming!')
+            print ('It is time to sleep now.')
             return 
 
         browserProcess = Bot.openBrowser()

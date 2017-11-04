@@ -11,6 +11,7 @@ areaMenuButton = (73, 293)
 fortressMenuButton = (50, 939)
 guildMenuButton = (60, 784)
 abawuwuMenuButton = (79, 586)
+guardDutyMenuButton = (82, 345)
 
 questGuy = (633, 687)
 firstQuest = (430, 721)
