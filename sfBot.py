@@ -9,13 +9,10 @@ import globalConstants as Constants
 import fortressModule as Fortress
 import guildModule as Guild
 
+
+
 # Beta Methods
 
-
-def doGuardDutyForHours():
-    print('Working as guard.')
-    Bot.click(PointLib.guardDutyMenuButton)
-    # TODO implement
     
 # Debugging:
 
@@ -39,12 +36,12 @@ for i in range(6):
 while(True):
     Quest.completeQuests()
 
-    print ('Cooling down for a while.')
-    Bot.sleep(60 * 5)
+    Bot.sleep(60 * 2)
 
     Arena.completeArena(34)
 
-    #Fortress.farmFortressXp(9)
+    Fortress.farmFortressXp(9)
     
     Bot.waitUntilTomorrow(5)
     
+

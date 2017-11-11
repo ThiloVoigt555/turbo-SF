@@ -48,7 +48,6 @@ def waitUntilTomorrow(hourToStop):
 def openBrowser():
     for i in range(5):
         print ('Opening Firefox.')
-        time.sleep(5)
         browserProcess = subprocess.Popen(['firefox', 'http://w20.sfgame.net/?playerclass=1&platform=html5'])    
         time.sleep(60 * Constants.firefoxStartupTime)
         click(PointLib.gameScreenPopupReset)

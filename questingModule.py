@@ -25,7 +25,7 @@ def completeQuests():
             browserProcess.kill()
             Bot.sleep(60 * (14 - Constants.firefoxStartupTime))
             browserProcess = Bot.openBrowser()
-            Fortress.collectFortressXp()
+            Fortress.collectFortressRessources()
 
         else:
             Bot.sleep(60 * 14)

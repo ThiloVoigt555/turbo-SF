@@ -14,10 +14,7 @@ def completeArena(trys):
     Guild.enlistToGuildFights()
     
     for i in range(trys):
-        if (timeNow.hour > 23 or timeNow.hour < 4):
-            print ('It is time to sleep now.')
-            return
-        
+        # TODO quit when new a day starts
         runArenaFight(i)
 
         if (i % 2 == 0 and i != 0):
@@ -29,6 +26,7 @@ def completeArena(trys):
         else:
             Bot.sleep(60 * 10)
 
+    Guild.enlistToGuildFights()
     browserProcess.kill()
     Bot.printTime()
     print ('Done with all fights.')
@@ -40,5 +38,5 @@ def runArenaFight(index):
     Bot.sleep(30)
     Bot.click(PointLib.firstArenaEnemy)
     Bot.click(PointLib.arenaOkButton)
-    Bot.time.sleep(60)
+    Bot.sleep(70)
     Bot.click(PointLib.characterMenuButton)
