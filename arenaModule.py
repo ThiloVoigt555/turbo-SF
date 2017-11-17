@@ -35,8 +35,8 @@ def completeArena(trys):
 def runArenaFight(index):
     print ('Area Fight #' + str(index))
     Bot.click(PointLib.areaMenuButton)
-    Bot.sleep(30)
+    Bot.sleep(35)
     Bot.click(PointLib.firstArenaEnemy)
     Bot.click(PointLib.arenaOkButton)
-    Bot.sleep(70)
+    Bot.sleep(75)
     Bot.click(PointLib.characterMenuButton)

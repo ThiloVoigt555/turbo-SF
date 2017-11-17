@@ -30,8 +30,9 @@ print('Starting up the bot:')
 for i in range(6):
     Bot.sleep(1)
 
-#Arena.completeArena(10)
-#Bot.waitUntilTomorrow(5)
+Arena.completeArena(15)
+Fortress.farmFortressXp(9)
+Bot.waitUntilTomorrow(5)
 
 while(True):
     Quest.completeQuests()
