@@ -28,7 +28,6 @@ def completeArena(trys):
 
     Guild.enlistToGuildFights()
     browserProcess.kill()
-    Bot.printTime()
     print ('Done with all fights.')
 
     

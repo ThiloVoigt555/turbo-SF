@@ -1,18 +1,22 @@
 import botModule as Bot
 import pointLibrary as PointLib
 
+import guildModule as Guild
 
 # Fortress methods
 def farmFortressXp(hoursToFarm):
-    Bot.printTime()
     print ('Going to farm fortress xp for ' + str(hoursToFarm) + ' hours.')
+    Bot.printTime()
 
     timeNow = Bot.getTime()
     for i in range(hoursToFarm):
         timeNow = Bot.getTime()
+        
         if (timeNow.hour > 23 or timeNow.hour < 4):
             browserProcess = Bot.openBrowser()
             collectGuardDutyReward()
+            collectFortressRessources()
+            Guild.enlistToGuildFights()
             browserProcess.kill()
             print ('It is time to sleep now.')
             return 

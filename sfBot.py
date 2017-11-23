@@ -39,9 +39,9 @@ while(True):
 
     Bot.sleep(60 * 2)
 
-    Arena.completeArena(34)
+    Arena.completeArena(30)
 
-    Fortress.farmFortressXp(9)
+    Fortress.farmFortressXp(10)
     
     Bot.waitUntilTomorrow(5)
     
