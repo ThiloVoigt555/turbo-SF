@@ -16,6 +16,9 @@ guardDutyMenuButton = (82, 345)
 
 # Questing
 questGuy = (633, 687)
+beerGuy = (1192, 536)
+drinkBeerButton = (1090, 737)
+drinkBeerBackButton = (1115, 798)
 firstQuest = (430, 721)
 secondQuest = (424, 764)
 thirdQuest = (425, 808)
@@ -23,6 +26,7 @@ questXpArea = (756, 751, 100, 24)
 questDurationArea = (738, 795, 80, 24)
 questOkButton = (1048, 734)
 aluCheckPoint = ((484, 898), (0, 26, 39))
+mushroomEventCheckPoint = ((399, 394), (169, 40, 6))
 
 # Arena
 firstArenaEnemy = (603, 397)

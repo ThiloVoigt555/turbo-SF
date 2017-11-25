@@ -13,9 +13,9 @@ def completeQuests():
     Fortress.collectFortressRessources()
     Guild.enlistToGuildFights()
     
-    for i in range(20):
-        questResult = runQuest(i) 
-        if questResult == False:
+    for i in range(30):
+        moreToGo = runQuest(i)
+        if moreToGo == False:
             Bot.printTime()
             print ('All Quests finished')
             browserProcess.kill()
@@ -30,7 +30,7 @@ def completeQuests():
         else:
             Bot.sleep(60 * 14)
         
-    print ('More than 20 quests needed!')
+    print ('More than 30 quests needed!')
     browserProcess.kill()
 
 def runQuest(index):
@@ -38,6 +38,7 @@ def runQuest(index):
     Bot.click(PointLib.tavernMenuButton)
     Bot.sleep(10)
     Bot.click(PointLib.tavernMenuButton)
+    
     if allQuestsDone():
         return False
     
@@ -55,7 +56,26 @@ def runQuest(index):
     Bot.click(PointLib.characterMenuButton)
 
 def allQuestsDone():
+    if isAluEmpty():
+        if isMushroomEvent():
+           drinkBeers()
+           if isAluEmpty():
+               return True
+    else:
+        return False
+
+def isAluEmpty():
     return Bot.checkPixel(PointLib.aluCheckPoint)
+
+def isMushroomEvent():
+    return Bot.checkPixel(PointLib.mushroomEventCheckPoint)
+
+def drinkBeers():
+    Bot.click(PointLib.beerGuy)
+    for i in range(5):
+        Bot.click(PointLib.drinkBeerButton)
+        
+    Bot.click(PointLib.drinkBeerBackButton)
 
 def chooseQuest(questNumber):
     if (int(questNumber) < 10):

@@ -14,7 +14,6 @@ def completeArena(trys):
     Guild.enlistToGuildFights()
     
     for i in range(trys):
-        # TODO quit when new a day starts
         runArenaFight(i)
 
         if (i % 2 == 0 and i != 0):

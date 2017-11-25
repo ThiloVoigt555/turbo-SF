@@ -36,7 +36,7 @@ def getCheckpointAtCurser():
     posX, posY = pyautogui.position()
     print('(('+ str(posX) + ', ' + str(posY) + '), ' + str(pyautogui.pixel(posX, posY)) + ')')
 
-def waitUntilTomorrow(hourToStop):
+def waitUntilTomorrowAt(hourToStop):
     print ('Day completed. Gonna sleep until tomorrow.')
     print ('')
     timeNow = datetime.datetime.now()

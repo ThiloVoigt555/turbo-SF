@@ -19,7 +19,8 @@ import guildModule as Guild
 #Bot.getCheckpointAtCurser()
 #enlistToGuildFights()
 #collectFortressRessources()
-#quest.test()
+#result = Quest.isMushroomEvent()
+#print(result)
 #sys.exit()
 
 
@@ -30,9 +31,9 @@ print('Starting up the bot:')
 for i in range(6):
     Bot.sleep(1)
 
-Arena.completeArena(15)
-Fortress.farmFortressXp(9)
-Bot.waitUntilTomorrow(5)
+#Arena.completeArena(5)
+#Fortress.farmFortressXp(9)
+#Bot.waitUntilTomorrowAt(5)
 
 while(True):
     Quest.completeQuests()
@@ -43,6 +44,6 @@ while(True):
 
     Fortress.farmFortressXp(10)
     
-    Bot.waitUntilTomorrow(5)
+    Bot.waitUntilTomorrowAt(5)
     
 
