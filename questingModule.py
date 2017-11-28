@@ -61,6 +61,8 @@ def allQuestsDone():
            drinkBeers()
            if isAluEmpty():
                return True
+        else:
+            return True
     else:
         return False
 
