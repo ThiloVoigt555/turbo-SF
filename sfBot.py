@@ -16,11 +16,11 @@ import guildModule as Guild
     
 # Debugging:
 
-#Bot.click((484, 898))
-#Bot.getCheckpointAtCurser()
+#Bot.click((399, 394))
+Bot.getCheckpointAtCurser()
 #collectFortressRessources()
-result = Quest.allQuestsDone()
-print(result)
+#result = Quest.allQuestsDone()
+#print(result)
 sys.exit()
 
 
@@ -41,7 +41,7 @@ while(True):
 
     Bot.sleep(60 * 2)
 
-    Arena.completeArena(30)
+    Arena.completeArena(20)
 
     Fortress.farmFortressXp(10)
     

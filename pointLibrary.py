@@ -27,6 +27,7 @@ questDurationArea = (738, 795, 80, 24)
 questOkButton = (1048, 734)
 aluCheckPoint = ((484, 898), (0, 26, 39))
 mushroomEventCheckPoint = ((399, 394), (169, 40, 6))
+xpEventCheckPoint = ((441, 396), (29, 68, 112))
 
 # Arena
 firstArenaEnemy = (603, 397)
