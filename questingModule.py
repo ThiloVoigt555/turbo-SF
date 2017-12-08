@@ -13,7 +13,7 @@ def completeQuests():
     Fortress.collectFortressRessources()
     Guild.enlistToGuildFights()
     
-    for i in range(30):
+    for i in range(40):
         moreToGo = runQuest(i)
         if moreToGo == False:
             Bot.printTime()
@@ -30,7 +30,8 @@ def completeQuests():
         else:
             Bot.sleep(60 * 14)
         
-    print ('More than 30 quests needed!')
+    print ('More than 40 quests needed!')
+    # TODO letzte quest abholen
     browserProcess.kill()
 
 def runQuest(index):

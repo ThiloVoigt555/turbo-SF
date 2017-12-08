@@ -17,11 +17,11 @@ import guildModule as Guild
 # Debugging:
 
 #Bot.click((399, 394))
-Bot.getCheckpointAtCurser()
+#Bot.getCheckpointAtCurser()
 #collectFortressRessources()
 #result = Quest.allQuestsDone()
 #print(result)
-sys.exit()
+#sys.exit()
 
 
 

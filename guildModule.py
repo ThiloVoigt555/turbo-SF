@@ -7,6 +7,7 @@ import globalConstants as Constants
 def enlistToGuildFights():
     print('Enlisting to guild fights.')
     Bot.click(PointLib.guildMenuButton)
+    Bot.sleep(10)
     Bot.click(PointLib.guildAttackEnlist)
     Bot.click(PointLib.guildDefenseEnlist)
     Bot.click(PointLib.guildRaidEnlist)
