@@ -58,7 +58,7 @@ def runQuest(index):
 
 def allQuestsDone():
     if isAluEmpty():
-        if isMushroomEvent() or isXpEvent():
+        if isMushroomEvent() or isXpEvent() or isChrismasEvent():
            drinkBeers()
            if isAluEmpty():
                return True
@@ -75,6 +75,9 @@ def isMushroomEvent():
 
 def isXpEvent():
     return Bot.checkPixel(PointLib.xpEventCheckPoint)
+
+def isChrismasEvent():
+    return Bot.checkPixel(PointLib.chrismasEventCheckPoint)
 
 def drinkBeers():
     Bot.click(PointLib.beerGuy)
